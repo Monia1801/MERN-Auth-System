@@ -29,8 +29,8 @@ app.post("/login", async (req, res) => {
   try {
 
     const { email, password } = req.body;
-    console.log(email);
-    console.log(password);
+    // console.log(email);
+    // console.log(password);
 
     const user = await User.findOne({ email });
 
@@ -38,14 +38,14 @@ app.post("/login", async (req, res) => {
 
       if (password === user.password) {
 
-        res.status(200).json({
+        return res.status(200).json({
           message: "Login Successful"
         });
 
       }
       else {
 
-        res.status(401).json({
+        return res.status(401).json({
           message: "Invalid email or password"
         });
 
@@ -54,7 +54,7 @@ app.post("/login", async (req, res) => {
     }
     else {
 
-      res.status(401).json({
+      return res.status(401).json({
         message: "Invalid email or password"
       });
 
@@ -70,6 +70,39 @@ app.post("/login", async (req, res) => {
   }
 
 });
+
+app.post("/signUp",async(req,res)=>{
+  try{
+    const {email,password}=req.body;
+    
+    const user=await User.findOne({email});
+
+    if(user){
+      // console.log("User exists");
+        return res.status(409).json({
+          message:"Email id already exists"
+        });
+      }
+    else{
+      const newUser=new User({
+        email,password
+      });
+
+      await newUser.save();
+      
+      // console.log("User registered");
+      return res.status(200).json({
+        message:"User registered successfully"
+      });
+    }
+    }
+  catch(error){
+    // console.log(error);
+    res.status(401).json({
+      message:"Server Error"
+    });
+  }
+})
 
 app.listen(5000, () => {
   console.log("Server running successfully");

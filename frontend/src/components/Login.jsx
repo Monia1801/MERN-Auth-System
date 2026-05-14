@@ -1,4 +1,6 @@
 import React,{useState} from 'react'
+import {Link} from "react-router-dom"
+import Dashboard from "./Dashboard"
 
 const Login = () => {
   const[email,setEmail]=useState("") ;
@@ -17,6 +19,10 @@ const Login = () => {
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify(userDetails)
     });
+
+    if(response.ok){
+      window.location.href="/dashboard"
+    }
   }
 
   return (
@@ -30,6 +36,7 @@ const Login = () => {
         <br></br>
 
         <button type="submit">Login</button>
+        <h3>Dont have an account?<Link to="/signup">SignUp</Link></h3>
       </form>
     </div>
   )
