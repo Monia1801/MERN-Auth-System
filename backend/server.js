@@ -8,10 +8,9 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors({
-  origin: "https://mern-auth-frontend-n0ab.onrender.com",
-  credentials: true
-}
-));
+  origin: process.env.FRONTEND_URL || "https://mern-auth-frontend-n0ab.onrender.com",
+  credentials: true,
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
@@ -121,6 +120,6 @@ app.post("/signUp",async(req,res)=>{
   }
 })
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server running successfully");
 });
