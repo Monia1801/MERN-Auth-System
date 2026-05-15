@@ -5,6 +5,8 @@ const Dashboard = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -13,7 +15,7 @@ const Dashboard = () => {
       return;
     }
 
-   fetch(`${import.meta.env.VITE_API_URL}/dashboard`, {
+   fetch(`${API_URL}/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

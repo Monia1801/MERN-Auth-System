@@ -6,6 +6,8 @@ const Login = () => {
   const [password,setPassword]=useState("");
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   const handleSubmit=async(e)=>{
     e.preventDefault();
 
@@ -15,7 +17,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      const response = await fetch(`${API_URL}/login`, {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify(userDetails)
@@ -34,8 +36,8 @@ const Login = () => {
         alert(data.message || "Login failed");
       }
     } catch (error) {
-      console.error("Login fetch error:", error);
-      alert("Backend not connected");
+      console.error("Login fetch error:", error, "API URL:", API_URL);
+      alert("Backend not connected. Check VITE_API_URL or backend deployment.");
     }
   }
 

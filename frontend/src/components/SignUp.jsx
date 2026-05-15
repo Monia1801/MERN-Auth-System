@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -14,7 +15,7 @@ const SignUp = () => {
         password,
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/signUp`, {
+      const response = await fetch(`${API_URL}/signUp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,8 +32,8 @@ const SignUp = () => {
         alert(data.message || "Signup Failed");
       }
     } catch (error) {
-      console.log("Fetch Error:", error);
-      alert("Backend not connected");
+      console.log("Fetch Error:", error, "API URL:", API_URL);
+      alert("Backend not connected. Check VITE_API_URL or backend deployment.");
     }
   };
 
