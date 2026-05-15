@@ -123,6 +123,6 @@ app.post("/signUp",async(req,res)=>{
   }
 })
 
-app.listen(process.env.PORT, () => {
-  console.log("Server running successfully");
+app.listen(PORT, () => {
+  console.log(`Server running successfully on port ${PORT}`);
 });
