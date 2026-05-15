@@ -7,8 +7,11 @@ require("dotenv").config();
 
 const app = express();
 
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const PORT = process.env.PORT || 5000;
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://mern-auth-frontend-n0ab.onrender.com",
+  origin: FRONTEND_URL,
   credentials: true,
 }));
 app.use(express.json());
