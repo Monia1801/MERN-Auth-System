@@ -22,11 +22,13 @@ const SignUp = () => {
         body: JSON.stringify(signupDetails),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         alert("Signup Successful");
         window.location.href = "/login";
       } else {
-        alert("Signup Failed");
+        alert(data.message || "Signup Failed");
       }
     } catch (error) {
       console.log("Fetch Error:", error);

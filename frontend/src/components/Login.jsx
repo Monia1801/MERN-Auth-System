@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
-import {Link} from "react-router-dom"
-import Dashboard from "./Dashboard"
+import {Link, useNavigate} from "react-router-dom"
 
 const Login = () => {
   const[email,setEmail]=useState("") ;
   const [password,setPassword]=useState("");
+  const navigate = useNavigate();
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
@@ -14,14 +14,23 @@ const Login = () => {
       password:password
     };
 
-    const response=await fetch("http://localhost:5000/login",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(userDetails)
-    });
+    try {
+      const response = await fetch("http://localhost:5000/login",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(userDetails)
+      });
 
-    if(response.ok){
-      window.location.href="/dashboard"
+      const data = await response.json();
+
+      if(response.ok){
+        navigate("/dashboard");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login fetch error:", error);
+      alert("Backend not connected");
     }
   }
 

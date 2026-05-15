@@ -97,8 +97,8 @@ app.post("/signUp",async(req,res)=>{
     }
     }
   catch(error){
-    // console.log(error);
-    res.status(401).json({
+    console.log(error);
+    res.status(500).json({
       message:"Server Error"
     });
   }
