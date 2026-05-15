@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors({
-  origin: "https://your-frontend.onrender.com",
+  origin: "https://mern-auth-frontend-n0ab.onrender.com",
   credentials: true
 }
 ));
