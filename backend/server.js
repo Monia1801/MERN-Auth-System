@@ -2,27 +2,33 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 
 require("dotenv").config();
 
 const app = express();
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const FRONTEND_URL = process.env.FRONTEND_URL || "";
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: FRONTEND_URL || true,
   credentials: true,
 }));
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("Mongo DB connected successfully");
-})
-.catch((error) => {
-  console.log(error);
-});
+const MONGO_URI = process.env.MONGO_URI;
+if (MONGO_URI) {
+  mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log("Mongo DB connected successfully");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+} else {
+  console.log("No MONGO_URI provided — skipping MongoDB connection.");
+}
 
 const userSchema = new mongoose.Schema({
   email: String,
@@ -122,6 +128,16 @@ app.post("/signUp",async(req,res)=>{
     });
   }
 })
+
+// Serve frontend in production when built
+if (process.env.NODE_ENV === "production") {
+  const frontendDist = path.join(__dirname, "..", "frontend", "dist");
+  app.use(express.static(frontendDist));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running successfully on port ${PORT}`);
