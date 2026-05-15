@@ -14,7 +14,7 @@ const SignUp = () => {
         password,
       };
 
-      const response = await fetch("http://localhost:5000/signUp", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signUp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

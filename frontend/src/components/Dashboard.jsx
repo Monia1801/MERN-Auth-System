@@ -13,7 +13,7 @@ const Dashboard = () => {
       return;
     }
 
-    fetch("http://localhost:5000/dashboard", {
+   fetch(`${import.meta.env.VITE_API_URL}/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
