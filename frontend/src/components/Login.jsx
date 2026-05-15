@@ -24,7 +24,12 @@ const Login = () => {
       const data = await response.json();
 
       if(response.ok){
-        navigate("/dashboard");
+        if(data.token){
+          localStorage.setItem("token", data.token);
+          navigate("/dashboard");
+        } else {
+          alert("Login succeeded but no token returned");
+        }
       } else {
         alert(data.message || "Login failed");
       }
@@ -45,7 +50,7 @@ const Login = () => {
         <br></br>
 
         <button type="submit">Login</button>
-        <h3>Dont have an account?<Link to="/signup">SignUp</Link></h3>
+        <h3>Dont have an account?<Link to="/">SignUp</Link></h3>
       </form>
     </div>
   )
